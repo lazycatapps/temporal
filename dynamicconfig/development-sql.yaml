@@ -1,0 +1,12 @@
+# Temporal Dynamic Configuration for Development
+# This file contains dynamic configuration for local development
+
+# Enable SQL visibility
+system.enableGlobalNamespace:
+  - value: false
+    constraints: {}
+
+# Configure search attributes
+system.forceSearchAttributesCacheRefreshOnRead:
+  - value: true
+    constraints: {}

@@ -1,0 +1,18 @@
+# 整个文件中，可以通过 ${var} 的方式，使用 manifest 字段指定的文件定义的值
+
+# buildscript
+# - 可以为构建脚本的路径地址
+# - 如果构建命令简单，也可以直接写 sh 的命令
+# buildscript: sh build.sh
+
+# Manifest 文件路径
+manifest: ./lzc-manifest.yml
+
+# 打包内容目录
+contentdir: ./dynamicconfig
+
+# 输出路径
+pkgout: ./
+
+# 应用图标
+icon: ./icon.png

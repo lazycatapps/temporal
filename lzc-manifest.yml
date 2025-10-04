@@ -1,0 +1,299 @@
+# ========== 应用基本信息 ==========
+name: Temporal
+# 应用唯一ID,全球唯一标识
+package: cloud.lazycat.app.liu.temporal
+# 应用版本号,对应 Temporal Server 版本
+version: 1.29.0
+keyword: temporal,workflow,orchestration
+description: Temporal 是一个开源的分布式工作流编排平台,用于构建可靠、可扩展的应用程序。它提供了工作流引擎、任务队列和 Web UI 管理界面,支持长时间运行的业务流程、微服务编排和事件驱动架构。
+
+# 软件名称,会显示在启动器之类的地方
+locales:
+  zh:
+    name: Temporal 工作流引擎
+    description: |
+      ## Temporal 工作流引擎
+
+      Temporal 官方网站：https://temporal.io/
+
+      Temporal 是一个开源的分布式工作流编排平台，专为构建可靠、可扩展的分布式应用程序而设计。它通过工作流（Workflow）和活动（Activity）的概念，帮助开发者轻松实现复杂的业务流程编排。
+
+      本应用在 LazyCat 平台上部署了完整的 Temporal 服务，包括 Temporal Server、Web UI、PostgreSQL 数据库和管理工具，开箱即用。
+
+      ## 核心特性
+
+      - ✅ **自动重试机制** - 活动失败时自动重试，无需手动编写重试逻辑
+      - ✅ **执行完整性保证** - 即使服务重启，工作流也会从中断处继续执行
+      - ✅ **长时间运行支持** - 支持从几秒到几年的工作流执行时间
+      - ✅ **分布式事务** - 提供补偿事务（Saga）模式，简化分布式事务处理
+      - ✅ **可观测性** - 内置 Web UI 查看工作流执行历史和状态
+      - ✅ **水平扩展** - Worker 可以水平扩展以提高处理能力
+
+      ## 主要组件
+
+      - **Temporal Server** - 工作流引擎核心服务（gRPC 端口 7233）
+      - **Web UI** - 工作流管理和监控界面（通过应用域名访问）
+      - **PostgreSQL** - 持久化存储工作流状态和历史
+      - **Admin Tools** - 命令行管理工具
+
+      ## 使用方法
+
+      ### 1. 访问 Web UI
+
+      通过应用域名直接访问 Temporal Web UI，查看和管理工作流执行：
+      ```
+      https://temporal.${BOXNAME}.heiyu.space
+      ```
+
+      ### 2. 连接 Temporal 服务
+
+      在你的应用中使用 Temporal Go SDK 连接到服务：
+      ```go
+      import "go.temporal.io/sdk/client"
+
+      c, err := client.Dial(client.Options{
+          HostPort: "temporal.${BOXNAME}.heiyu.space:7233",
+      })
+      ```
+
+      ### 3. 运行示例项目
+
+      本仓库包含一个完整的订单处理系统示例（order-demo），演示了：
+      - 5 步订单处理流程（验证 → 库存 → 支付 → 发货 → 通知）
+      - 自动重试机制
+      - 补偿事务（Saga 模式）
+      - 容错处理
+
+      启动 Worker：
+      ```bash
+      cd order-demo
+      go run worker/main.go -temporal-address temporal.${BOXNAME}.heiyu.space:7233
+      ```
+
+      运行客户端：
+      ```bash
+      go run client/main.go -temporal-address temporal.${BOXNAME}.heiyu.space:7233
+      ```
+
+      ## 适用场景
+
+      - 📦 **订单处理** - 电商订单从创建到完成的全流程编排
+      - 💰 **支付处理** - 复杂的支付流程和退款补偿逻辑
+      - 📊 **数据处理** - ETL 流程、批量数据处理任务
+      - 🔄 **定时任务** - 复杂的定时任务调度和重试
+      - 🎯 **微服务编排** - 跨多个微服务的业务流程协调
+      - 📧 **通知系统** - 可靠的消息发送和重试机制
+
+      ## 技术架构
+
+      - **Temporal Server 版本**: 1.29.0
+      - **Web UI 版本**: 2.40.1
+      - **数据库**: PostgreSQL 16
+      - **支持的 SDK**: Go, Java, Python, TypeScript, .NET, PHP
+
+      ## 注意事项
+
+      - ⚠️ **后台服务**: 本应用为后台服务，会持续运行不会自动休眠
+      - 💾 **数据持久化**: 所有工作流状态和历史数据存储在 PostgreSQL 中，建议定期备份
+      - 🔒 **单实例模式**: 应用运行在单实例模式，适合中小规模使用场景
+      - 🌐 **网络访问**: Worker 可以部署在任何能访问 LazyCat 平台的环境中
+
+      ## 相关资源
+
+      - 📖 [Temporal 官方文档](https://docs.temporal.io/)
+      - 💻 [Go SDK 文档](https://docs.temporal.io/dev-guide/go)
+      - 📦 [示例代码库](https://github.com/temporalio/samples-go)
+      - 🐙 [项目 GitHub](https://github.com/lazycatapps/temporal)
+
+  en:
+    name: Temporal Workflow Engine
+    description: |
+      ## Temporal Workflow Engine
+
+      Temporal official website: https://temporal.io/
+
+      Temporal is an open-source distributed workflow orchestration platform designed for building reliable and scalable distributed applications. Through the concepts of Workflows and Activities, it helps developers easily implement complex business process orchestration.
+
+      This application deploys a complete Temporal service on the LazyCat platform, including Temporal Server, Web UI, PostgreSQL database, and admin tools, ready to use out of the box.
+
+      ## Core Features
+
+      - ✅ **Automatic Retry Mechanism** - Activities automatically retry on failure without manual retry logic
+      - ✅ **Execution Integrity Guarantee** - Workflows resume from interruption points even after service restarts
+      - ✅ **Long-Running Support** - Supports workflow execution times from seconds to years
+      - ✅ **Distributed Transactions** - Provides Saga pattern for simplified distributed transaction handling
+      - ✅ **Observability** - Built-in Web UI to view workflow execution history and status
+      - ✅ **Horizontal Scaling** - Workers can scale horizontally to increase processing capacity
+
+      ## Main Components
+
+      - **Temporal Server** - Core workflow engine service (gRPC port 7233)
+      - **Web UI** - Workflow management and monitoring interface (accessible via application domain)
+      - **PostgreSQL** - Persistent storage for workflow state and history
+      - **Admin Tools** - Command-line management tools
+
+      ## Usage Instructions
+
+      ### 1. Access Web UI
+
+      Access the Temporal Web UI directly through the application domain to view and manage workflow executions:
+      ```
+      https://temporal.${BOXNAME}.heiyu.space
+      ```
+
+      ### 2. Connect to Temporal Service
+
+      Use the Temporal Go SDK in your application to connect to the service:
+      ```go
+      import "go.temporal.io/sdk/client"
+
+      c, err := client.Dial(client.Options{
+          HostPort: "temporal.${BOXNAME}.heiyu.space:7233",
+      })
+      ```
+
+      ### 3. Run Example Project
+
+      This repository includes a complete order processing system example (order-demo) demonstrating:
+      - 5-step order processing flow (Validation → Inventory → Payment → Shipping → Notification)
+      - Automatic retry mechanism
+      - Compensating transactions (Saga pattern)
+      - Fault tolerance handling
+
+      Start Worker:
+      ```bash
+      cd order-demo
+      go run worker/main.go -temporal-address temporal.${BOXNAME}.heiyu.space:7233
+      ```
+
+      Run Client:
+      ```bash
+      go run client/main.go -temporal-address temporal.${BOXNAME}.heiyu.space:7233
+      ```
+
+      ## Use Cases
+
+      - 📦 **Order Processing** - E-commerce order orchestration from creation to completion
+      - 💰 **Payment Processing** - Complex payment flows and refund compensation logic
+      - 📊 **Data Processing** - ETL processes, batch data processing tasks
+      - 🔄 **Scheduled Tasks** - Complex scheduled task scheduling and retry
+      - 🎯 **Microservice Orchestration** - Business process coordination across multiple microservices
+      - 📧 **Notification System** - Reliable message sending and retry mechanism
+
+      ## Technical Architecture
+
+      - **Temporal Server Version**: 1.29.0
+      - **Web UI Version**: 2.40.1
+      - **Database**: PostgreSQL 16
+      - **Supported SDKs**: Go, Java, Python, TypeScript, .NET, PHP
+
+      ## Important Notes
+
+      - ⚠️ **Background Service**: This application is a background service and will run continuously without automatic sleep
+      - 💾 **Data Persistence**: All workflow state and history data is stored in PostgreSQL, regular backups recommended
+      - 🔒 **Single Instance Mode**: Application runs in single instance mode, suitable for small to medium scale scenarios
+      - 🌐 **Network Access**: Workers can be deployed in any environment that can access the LazyCat platform
+
+      ## Related Resources
+
+      - 📖 [Temporal Official Documentation](https://docs.temporal.io/)
+      - 💻 [Go SDK Documentation](https://docs.temporal.io/dev-guide/go)
+      - 📦 [Sample Code Repository](https://github.com/temporalio/samples-go)
+      - 🐙 [Project GitHub](https://github.com/lazycatapps/temporal)
+
+# 软件本身的 license
+license: https://choosealicense.com/licenses/mit/
+
+# 软件的主页,会在商店等地方体现
+homepage: https://github.com/temporalio/temporal
+
+# lpk 的作者,会在商店等地方体现
+author: liu
+
+# ========== 应用核心配置 ==========
+application:
+  subdomain: temporal # 应用访问子域名
+  background_task: true
+  multi_instance: false # 单实例模式
+
+  # HTTP 路由配置 - Temporal Web UI
+  routes:
+    # 根路径转发到 Temporal UI 服务
+    # 简化格式,在应用内部直接使用服务名
+    - /=http://temporal-ui:8080/
+
+  # TCP 服务配置 - Temporal gRPC 端口
+  ingress:
+    - protocol: tcp
+      port: 7233 # Temporal Server gRPC 端口
+      service: temporal # 转发到 temporal 服务
+      description: Temporal gRPC 服务
+      publish_port: "7233" # 对外暴露的端口号
+
+# ========== 容器服务配置 ==========
+services:
+  # PostgreSQL 数据库服务
+  postgresql:
+    # 镜像说明:
+    # lzc-cli appstore copy-image postgres:16
+    image: registry.lazycat.cloud/liu/library/postgres:e431984486fa39d6
+    environment:
+      - POSTGRES_PASSWORD=temporal # 数据库密码
+      - POSTGRES_USER=temporal # 数据库用户名
+    binds:
+      # 数据持久化目录映射
+      - /lzcapp/var/data:/var/lib/postgresql/data
+
+  # Temporal Server 核心服务
+  temporal:
+    # 镜像说明:
+    # https://hub.docker.com/r/temporalio/auto-setup/tags
+    # lzc-cli appstore copy-image temporalio/auto-setup:1.29.0
+    image: registry.lazycat.cloud/liu/temporalio/auto-setup:512a0cc0f32933cb
+
+    # 启动前配置脚本
+    # 注意:每次容器启动都会执行,需要幂等性
+    setup_script: |
+      mkdir -p /configs/dynamicconfig
+      cp /lzcapp/pkg/content/development-sql.yaml /configs/dynamicconfig/development-sql.yaml
+
+    environment:
+      # 数据库配置
+      - DB=postgres12 # 数据库类型
+      - DB_PORT=5432 # 数据库端口
+      - POSTGRES_USER=temporal # 数据库用户名
+      - POSTGRES_PWD=temporal # 数据库密码
+      - POSTGRES_SEEDS=postgresql # 数据库服务名
+      # Temporal 配置
+      - DYNAMIC_CONFIG_FILE_PATH=/configs/dynamicconfig/development-sql.yaml
+      - TEMPORAL_ADDRESS=temporal:7233 # Temporal Server 地址
+      - TEMPORAL_CLI_ADDRESS=temporal:7233 # Temporal CLI 地址
+    depends_on:
+      - postgresql # 依赖 PostgreSQL 服务
+    binds:
+      # 配置文件持久化目录
+      - /lzcapp/var/configs:/configs
+
+  # Temporal 管理工具服务
+  temporal-admin-tools:
+    # 镜像说明:
+    # https://hub.docker.com/r/temporalio/admin-tools/tags
+    # lzc-cli appstore copy-image temporalio/admin-tools:1.29
+    image: registry.lazycat.cloud/liu/temporalio/admin-tools:67a1365073febb90
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233 # Temporal Server 地址
+      - TEMPORAL_CLI_ADDRESS=temporal:7233 # Temporal CLI 地址
+    depends_on:
+      - temporal # 依赖 Temporal Server 服务
+
+  # Temporal Web UI 服务
+  temporal-ui:
+    # 镜像说明:
+    # https://github.com/temporalio/ui
+    # lzc-cli appstore copy-image temporalio/ui:2.40.1
+    image: registry.lazycat.cloud/liu/temporalio/ui:6336c63f87b91488
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233 # Temporal Server 地址
+      - TEMPORAL_CORS_ORIGINS=http://localhost:3000,https://${LAZYCAT_APP_DOMAIN} # CORS 跨域配置,使用系统自动注入的应用域名
+    depends_on:
+      - temporal # 依赖 Temporal Server 服务
