@@ -1,4 +1,47 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+bin/
+dist/
+build/
+*.out
+coverage.out
+coverage.html
+htmlcov/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.local
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Custom ignores
 .env
 *.lpk
-.lzc-dtl-cache.json
 docker-compose.yml
+docker-compose.yaml
+docker-run.sh
+publish.tips.md
+.lzc-dtl-cache.json
+
+# Add project-specific ignores below this line

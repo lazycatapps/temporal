@@ -1,38 +1,22 @@
-.PHONY: help build deploy clean list-packages
+# Example Makefile for a LazyCAT Apps project
+# Copy this file to your project and customize the variables below
 
-HELP_FUN = \
-	%help; while(<>){push@{$$help{$$2//'options'}},[$$1,$$3] \
-	if/^([\w-_]+)\s*:.*\#\#(?:@(\w+))?\s(.*)$$/}; \
-	print"\033[1m$$_:\033[0m\n", map"  \033[36m$$_->[0]\033[0m".(" "x(20-length($$_->[0])))."$$_->[1]\n",\
-	@{$$help{$$_}},"\n" for keys %help; \
+# Project configuration
+# PROJECT_NAME ?= your-project  # defaults to current directory name
+PROJECT_TYPE ?= lpk-only  # (lpk-only | docker-lpk)
 
-help: ##@General Show this help
-	@echo -e "Usage: make \033[36m<target>\033[0m\n"
-	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
+# Version (optional, auto-detected from git if not set)
+# VERSION := 1.0.0
 
-build: ##@Build Build LPK package
-	@echo "Building LPK package..."
-	@lzc-cli project build
-	@echo "LPK package built successfully!"
+# Docker configuration (only for docker-lpk projects)
+# REGISTRY := docker.io/lazycatapps
+# IMAGE_NAME := $(PROJECT_NAME)
 
-deploy: build ##@Deploy Build and install LPK package
-	@echo "Installing LPK package..."
-	@LPK_FILE=$$(ls -t *.lpk 2>/dev/null | head -n 1); \
-	if [ -z "$$LPK_FILE" ]; then \
-		echo "Error: No LPK file found"; \
-		exit 1; \
-	fi; \
-	echo "Installing $$LPK_FILE..."; \
-	lzc-cli app install "$$LPK_FILE"
-	@echo "Installation completed!"
+# Include the common base.mk
+include base.mk
 
-list-packages: ##@General List all LPK packages in current directory
-	@echo "Available LPK packages:"
-	@ls -lht *.lpk 2>/dev/null || echo "No LPK packages found"
-
-clean: ##@General Clean up LPK packages
-	@echo "Removing LPK packages..."
-	@rm -f *.lpk
-	@echo "Cleaned!"
-
-all: deploy ##@General Default target: build and deploy
+# You can add custom targets below
+# Example:
+# .PHONY: custom-target
+# custom-target: ## My custom target
+#	@echo "Running custom target"
