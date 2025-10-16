@@ -44,4 +44,7 @@ docker-run.sh
 publish.tips.md
 .lzc-dtl-cache.json
 
+**/dist/
+**/node_modules/
+
 # Add project-specific ignores below this line

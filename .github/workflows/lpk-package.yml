@@ -103,7 +103,7 @@ jobs:
       tag_name: ${{ needs.prepare.outputs.tag_name }}
       workflow_run_head_branch: ${{ needs.prepare.outputs.workflow_run_head_branch }}
       should_copy_image: ${{ fromJSON(needs.prepare.outputs.should_copy_image) }}
-      source_image: ""
+      source_image_b64: ""
     secrets:
       lazycat_username: ${{ secrets.LAZYCAT_USERNAME }}
       lazycat_password: ${{ secrets.LAZYCAT_PASSWORD }}

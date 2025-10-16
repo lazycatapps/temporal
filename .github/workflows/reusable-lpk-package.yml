@@ -40,11 +40,11 @@ on:
         required: false
         default: false
         description: "Whether to copy Docker image to Lazycat registry"
-      source_image:
+      source_image_b64:
         type: string
         required: false
         default: ""
-        description: "Source Docker image to copy (format: 'registry/repo:tag')"
+        description: "Base64-encoded source Docker image to copy (format: 'registry/repo:tag'). Base64 encoding is used to bypass GitHub Actions' automatic secret masking when the image name contains values from secrets."
     secrets:
       lazycat_username:
         required: true
@@ -269,15 +269,18 @@ jobs:
           LANG: en_US.UTF-8
           LC_ALL: en_US.UTF-8
         run: |
-          if [ -z "${{ inputs.source_image }}" ]; then
-            echo "❌ source_image input is required when should_copy_image is true"
+          if [ -z "${{ inputs.source_image_b64 }}" ]; then
+            echo "❌ source_image_b64 input is required when should_copy_image is true"
             exit 1
           fi
 
-          echo "Copying Docker image: ${{ inputs.source_image }}"
+          # Decode base64-encoded source image
+          # The input is base64-encoded to bypass GitHub Actions' automatic secret masking
+          SOURCE_IMAGE=$(echo "${{ inputs.source_image_b64 }}" | base64 -d)
+          echo "Copying Docker image: ${SOURCE_IMAGE}"
 
           set +e
-          lzc-cli appstore copy-image ${{ inputs.source_image }} > /tmp/copy_output.log 2>&1
+          lzc-cli appstore copy-image "${SOURCE_IMAGE}" > /tmp/copy_output.log 2>&1
           COPY_EXIT_CODE=$?
           set -e
 
